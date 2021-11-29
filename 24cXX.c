@@ -43,7 +43,7 @@ static int i2c_write_2b(struct eeprom *e, __u8 buf[2])
 	r = i2c_smbus_write_byte_data(e->fd, buf[0], buf[1]);
 	if(r < 0)
 		fprintf(stderr, "Error i2c_write_2b: %s\n", strerror(errno));
-	usleep(10);
+	usleep(10000);
 	return r;
 }
 
@@ -69,7 +69,8 @@ static int i2c_write_3b(struct eeprom *e, __u8 buf[3])
 
 int eeprom_open(char *dev_fqn, int addr, int type, struct eeprom* e)
 {
-	int funcs, fd, r;
+	unsigned long funcs;
+    int fd, r;
 	e->fd = e->addr = 0;
 	e->dev = 0;
 
